@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { useWeb3 } from '@components/providers';
 
 export default function Navbar() {
+  const { connect, test } = useWeb3();
   return (
     <section>
       <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
@@ -31,12 +33,13 @@ export default function Navbar() {
                 </a>
               </Link>
 
-              <a
+              <span
+                onClick={connect}
                 href="#"
                 className="px-6 py-3 border rounded-md shadow text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
               >
                 Connect
-              </a>
+              </span>
             </div>
           </div>
         </nav>
