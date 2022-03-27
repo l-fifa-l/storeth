@@ -1,6 +1,7 @@
 import { useContext, createContext, useEffect, useState, useMemo } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
+import { setupHooks } from './hooks/setupHooks';
 
 const Web3Context = createContext(null);
 
@@ -32,26 +33,25 @@ export default function Web3Provider({ children }) {
   }, []);
 
   const _web3Api = useMemo(() => {
+    const { web3, provider } = web3Api;
     return {
       ...web3Api,
-      connect: () =>
-        web3Api.provider
-          ? async () => {
-              try {
-                await web3Api.provider.request({
-                  method: 'eth_requestAccounts',
-                });
-              } catch (error) {
-                location.reload;
-              }
+      isWeb3Loaded: web3 != null,
+      getHooks: () => setupHooks(web3),
+      connect: provider
+        ? async () => {
+            try {
+              await provider.request({ method: 'eth_requestAccounts' });
+            } catch {
+              location.reload();
             }
-          : () =>
-              console.error(
-                'Cannot Connect to Metamask, try to reload your browser'
-              ),
+          }
+        : () =>
+            console.error(
+              'Cannot connect to Metamask, try to reload your browser please.'
+            ),
     };
   }, [web3Api]);
-
   return (
     <Web3Context.Provider value={_web3Api}>{children}</Web3Context.Provider>
   );
@@ -59,4 +59,9 @@ export default function Web3Provider({ children }) {
 
 export function useWeb3() {
   return useContext(Web3Context);
+}
+
+export function useHooks(cb) {
+  const { getHooks } = useWeb3();
+  return cb(getHooks());
 }
