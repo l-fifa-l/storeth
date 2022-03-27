@@ -35,7 +35,7 @@ export default function Web3Provider({ children }) {
     return {
       ...web3Api,
       connect: () =>
-        web3Api.Provider
+        web3Api.provider
           ? async () => {
               try {
                 await web3Api.provider.request({
