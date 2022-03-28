@@ -1,12 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
 import { useWeb3 } from '@components/providers';
+import Link from 'next/link';
 import { Button } from '@components/ui/common';
-import { useAccount } from '@components/hooks/web3/useAccount';
+import { useAccount } from '@components/hooks/web3';
 import { useRouter } from 'next/router';
 
 export default function Navbar() {
-  const { connect, isLoading, isWeb3Loaded } = useWeb3();
+  const { connect, isLoading, requireInstall } = useWeb3();
   const { account } = useAccount();
   const { pathname } = useRouter();
 
@@ -26,31 +25,27 @@ export default function Navbar() {
                   Marketplace
                 </a>
               </Link>
-              <Link href="#">
+              <Link href="/">
                 <a className="font-medium mr-8 text-gray-500 hover:text-gray-900">
                   Blogs
                 </a>
               </Link>
             </div>
             <div>
-              <Link href="#">
+              <Link href="/">
                 <a className="font-medium mr-8 text-gray-500 hover:text-gray-900">
-                  WishList
+                  Wishlist
                 </a>
               </Link>
               {isLoading ? (
                 <Button disabled={true} onClick={connect}>
                   Loading...
                 </Button>
-              ) : isWeb3Loaded ? (
-                account.data ? (
-                  <Button hoverable={false} className="cursor-default">
-                    Hi there {account.isAdmin && 'Admin'}
-                  </Button>
-                ) : (
-                  <Button onClick={connect}>Connect</Button>
-                )
-              ) : (
+              ) : account.data ? (
+                <Button hoverable={false} className="cursor-default">
+                  Hi there {account.isAdmin && 'Admin'}
+                </Button>
+              ) : requireInstall ? (
                 <Button
                   onClick={() =>
                     window.open('https://metamask.io/download.html', '_blank')
@@ -58,6 +53,8 @@ export default function Navbar() {
                 >
                   Install Metamask
                 </Button>
+              ) : (
+                <Button onClick={connect}>Connect</Button>
               )}
             </div>
           </div>
