@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Card({ course, Footer }) {
+export default function Card({ course, Footer, disabled }) {
   return (
     <div
       key={course.id}
@@ -12,7 +12,7 @@ export default function Card({ course, Footer }) {
       <div className="flex h-full">
         <div className="flex-1 h-full next-image-wrapper">
           <Image
-            className="object-cover"
+            className={`object-cover ${disabled && 'filter grayscale'}`}
             src={course.coverImage}
             layout="responsive"
             width="200"
