@@ -1,6 +1,7 @@
-import { OwnedCourseCard } from '@components/ui/course';
+import { CourseFilter, OwnedCourseCard } from '@components/ui/course';
 import { BaseLayout } from '@components/ui/layout';
 import { MarketHeader } from '@components/ui/marketplace';
+import { Button, Message } from '@components/ui/common';
 import React from 'react';
 
 export default function OwnedCourses() {
@@ -10,7 +11,10 @@ export default function OwnedCourses() {
         <MarketHeader />
       </div>
       <section className="grid grid-cols-1">
-        <OwnedCourseCard />
+        <OwnedCourseCard>
+          <Message>My custom message!</Message>
+          <Button>Watch the course</Button>
+        </OwnedCourseCard>
       </section>
     </>
   );
