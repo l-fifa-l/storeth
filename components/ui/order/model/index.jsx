@@ -160,7 +160,7 @@ export default function OrderModal({ course, onClose, onSubmit }) {
                   <input
                     checked={hasAgreedTOS}
                     onChange={({ target: { checked } }) => {
-                      setHasAgreedTOS(checked);
+                      setHasAgreefTOS(checked);
                     }}
                     type="checkbox"
                     className="form-checkbox"

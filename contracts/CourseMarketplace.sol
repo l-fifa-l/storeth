@@ -55,6 +55,7 @@ contract CourseMarketplace {
   {
     bytes32 courseHash = keccak256(abi.encodePacked(courseId, msg.sender));
 
+///only one vote can be cast
       if (hasCourseOwnership(courseHash)) {
       revert CourseHasOwner();
     }
